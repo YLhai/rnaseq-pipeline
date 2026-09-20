@@ -15,7 +15,94 @@ raw FASTQ
   -> MultiQC 汇总（可选）
 ```
 
-## 1. 安装
+## 1. 使用前需要准备的文件
+
+最低要求只需要三类文件：**样本表、参考基因组、基因注释**。功能注释和 GO/KEGG
+映射是可选但推荐的输入，用于功能基因集分类和富集分析。
+
+### 1.1 必需文件
+
+| 文件 | 配置项 | 格式 | 说明 |
+|---|---|---|---|
+| 样本表 | `samples` | TSV 或 CSV | 必需列：`sample`、`group`、`replicate`、`fastq_1`、`fastq_2`（双端） |
+| 参考基因组 | `reference.genome_fasta` | FASTA | 用于建立 HISAT2 索引和比对 |
+| 基因注释 | `reference.gtf` | GTF 或 GFF | 用于 featureCounts 基因定量；基因 ID 必须与表达矩阵一致 |
+
+样本表示例：
+
+```
+sample	group	replicate	fastq_1	fastq_2
+control_1	control	1	/data/control_1_R1.fq.gz	/data/control_1_R2.fq.gz
+control_2	control	2	/data/control_2_R1.fq.gz	/data/control_2_R2.fq.gz
+treat4_1	treat4	1	/data/treat4_1_R1.fq.gz	/data/treat4_1_R2.fq.gz
+treat8_1	treat8	1	/data/treat8_1_R1.fq.gz	/data/treat8_1_R2.fq.gz
+```
+
+注意：
+
+- 原始 FASTQ 和质控后的 clean FASTQ 都可以直接使用；
+- 如果使用已经质控过的数据，设置 `project.input_is_clean: true`，流程会自动跳过 fastp；
+- FASTQ 列名固定为 `fastq_1`、`fastq_2`，单端数据只填 `fastq_1`；
+- 基因注释里的 ID 必须和 featureCounts 使用的 ID 一致，通常由
+  `reference.gene_attribute`（默认 `gene_id`）指定。
+
+### 1.2 可选但推荐的文件
+
+| 文件 | 配置项 | 用途 |
+|---|---|---|
+| 功能注释表 | `annotation.table` | 添加 Product、GO Terms 等注释，用于 DEG 注释和功能基因集分类 |
+| GO 映射表 | `annotation.go_gene_table` | GeneID → GO；如果功能注释表里已有 GO 列，可不提供 |
+| 基因-KO 表 | `annotation.kegg_gene_table` | GeneID → KO，用于 KEGG 富集 |
+| KO-通路表 | `annotation.ko_pathway_table` | KO → pathway，用于 KEGG 富集 |
+| 通路名称表 | `annotation.pathway_names` | pathway ID → 名称 |
+| HISAT2 索引 | `reference.hisat2_index` | 已有索引时可直接使用，避免重复建库 |
+| BAM 文件 | `results/bam/*.sorted.bam` | 已完成比对时，可从 `count` 步骤开始 |
+| featureCounts 矩阵 | `results/counts/featureCounts_counts.txt` | 已有表达矩阵时，可从 `deseq` 步骤开始 |
+
+功能注释和 GO/KEGG 映射文件的具体格式、列名要求与示例见
+[docs/annotation_formats.md](docs/annotation_formats.md)。
+
+### 1.3 推荐的项目目录结构
+
+```
+my_project/
+├── config.yaml
+├── samples.tsv
+├── data/                       # FASTQ（原始或已质控）
+├── reference/
+│   ├── genome.fa
+│   └── genes.gtf
+├── annotation/
+│   ├── function_annotation.tsv
+│   ├── gene_go.tsv
+│   ├── gene_ko.tsv
+│   ├── ko_pathway.tsv
+│   └── pathway_names.tsv
+├── results/                    # 自动生成
+└── logs/                       # 自动生成
+```
+
+### 1.4 两种最常见的准备方案
+
+只做差异表达分析（不要求功能富集）：
+
+```
+samples.tsv + genome.fa + genes.gtf
+```
+
+完整分析（差异表达 + 功能分类 + GO/KEGG 富集）：
+
+```
+samples.tsv + genome.fa + genes.gtf
+  + function_annotation.tsv（或 gene_go.tsv）
+  + gene_ko.tsv + ko_pathway.tsv + pathway_names.tsv
+```
+
+如果暂时没有功能注释文件，也可以在 `config.yaml` 中设置
+`annotation.from_gtf: true`，程序会从 GTF/GFF 的 `gene_name`、`product`、
+`description` 字段自动生成一份基础注释。
+
+## 2. 安装
 
 推荐使用 conda/mamba 创建环境：
 
@@ -48,7 +135,7 @@ pip install -e .
 
 WSL 中访问 D/E 盘分别为 `/mnt/d` 和 `/mnt/e`，`config.yaml` 与 `samples.tsv` 中使用 Linux 路径即可。
 
-## 2. 初始化项目
+## 3. 初始化项目
 
 ```bash
 rnaseq-pipeline init -o my_morchella_project
@@ -70,7 +157,7 @@ control_1	control	1	/path/control_1_R1.fq.gz	/path/control_1_R2.fq.gz
 treat4_1	treat4	1	/path/treat4_1_R1.fq.gz	/path/treat4_1_R2.fq.gz
 ```
 
-## 3. 检查配置
+## 4. 检查配置
 
 ```bash
 rnaseq-pipeline check -c config.yaml
@@ -78,7 +165,7 @@ rnaseq-pipeline check -c config.yaml
 
 会检查样本表、参考基因组、GTF、注释文件、R 包和外部软件是否就绪。
 
-## 4. 运行
+## 5. 运行
 
 ```bash
 # 全流程
@@ -123,7 +210,7 @@ rnaseq-pipeline run -c config.yaml --steps index,align,count,deseq,annotate,cate
 rnaseq-pipeline run -c config.yaml --steps count,deseq,annotate,categories,enrichment,figures
 ```
 
-## 5. 主要输出
+## 6. 主要输出
 
 ```
 results/
@@ -139,7 +226,7 @@ results/
 └── pipeline_summary.md    # 流程摘要
 ```
 
-## 6. 定制功能基因集
+## 7. 定制功能基因集
 
 `config.yaml` 中的 `analysis.categories` 用于自定义基因集，例如抗氧化、能量代谢和萜类代谢：
 
@@ -188,7 +275,7 @@ analysis:
     enrichment_threshold: strict   # strict | nominal | all
 ```
 
-## 7. 适配其他物种
+## 8. 适配其他物种
 
 本流程不包含任何物种专属的硬编码逻辑，换成其他物种只需要修改 `config.yaml`：
 
@@ -222,7 +309,7 @@ analysis:
 StringTie 步骤默认关闭，默认使用 featureCounts 的表达矩阵进行 DESeq2 分析；
 如需启动，将 `analysis.stringtie` 设为 `true`。
 
-## 8. 依赖的软件
+## 9. 依赖的软件
 
 | 软件 | 用途 |
 |---|---|
@@ -235,7 +322,7 @@ StringTie 步骤默认关闭，默认使用 featureCounts 的表达矩阵进行 
 | clusterProfiler / GO.db / AnnotationDbi / KEGGREST | GO/KEGG 富集 |
 | MultiQC | 质控汇总（可选） |
 
-## 9. 引用
+## 10. 引用
 
 如果使用本流程，请引用相应工具：
 
@@ -245,6 +332,6 @@ StringTie 步骤默认关闭，默认使用 featureCounts 的表达矩阵进行 
 
 本项目的 `docs/references/` 目录提供了 EndNote 可导入的 RIS 文件。
 
-## 10. 许可
+## 11. 许可
 
 MIT License。可自由修改、分发和用于科研项目。
