@@ -1,5 +1,24 @@
 # 使用说明
 
+## 0. 使用前准备
+
+必需文件：
+
+1. `samples.tsv`：样本表，必需列为 `sample`、`group`、`replicate`、`fastq_1`、
+   `fastq_2`（单端只填 `fastq_1`）；
+2. `genome.fa`：参考基因组 FASTA；
+3. `genes.gtf`（或 GFF）：基因注释，ID 必须和 featureCounts 使用的 ID 一致。
+
+功能分析和富集可选文件：
+
+- `function_annotation.tsv`：GeneID、Product、GO Terms；
+- `gene_go.tsv`：GeneID → GO；
+- `gene_ko.tsv`：GeneID → KO；
+- `ko_pathway.tsv`：KO → pathway；
+- `pathway_names.tsv`：pathway → 名称。
+
+完整格式见 [annotation_formats.md](annotation_formats.md) 和项目 `examples/` 目录。
+
 ## 1. 环境安装
 
 ```bash
