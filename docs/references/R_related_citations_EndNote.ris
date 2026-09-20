@@ -1,0 +1,77 @@
+TY  - JOUR
+AU  - Xu, Shuangbin
+AU  - Hu, Erqiang
+AU  - Cai, Yanzhuo
+AU  - Xie, Zhendong
+AU  - Luo, Xiao
+AU  - Zhan, Li
+AU  - Tang, Wenli
+AU  - Wang, Qianwen
+AU  - Liu, Bin
+AU  - Wang, Rui
+AU  - Xie, Wenqin
+AU  - Wu, Tianzhi
+AU  - Xie, Lin
+AU  - Yu, Guangchuang
+PY  - 2024
+TI  - Using clusterProfiler to characterize multiomics data
+JO  - Nature Protocols
+VL  - 19
+IS  - 11
+SP  - 3292
+EP  - 3320
+DO  - 10.1038/s41596-024-01020-z
+ER  -
+
+TY  - JOUR
+AU  - Wu, Tianzhi
+AU  - Hu, Erqiang
+AU  - Xu, Shuangbin
+AU  - Chen, Meijun
+AU  - Guo, Pingfan
+AU  - Dai, Zehan
+AU  - Feng, Tingze
+AU  - Zhou, Lang
+AU  - Tang, Wenli
+AU  - Zhan, Li
+AU  - Fu, Xiaochuan
+AU  - Liu, Shanshan
+AU  - Bo, Xiaochen
+AU  - Yu, Guangchuang
+PY  - 2021
+TI  - clusterProfiler 4.0: A universal enrichment tool for interpreting omics data
+JO  - The Innovation
+VL  - 2
+IS  - 3
+SP  - 100141
+DO  - 10.1016/j.xinn.2021.100141
+ER  -
+
+TY  - JOUR
+AU  - Kanehisa, Minoru
+AU  - Goto, Susumu
+PY  - 2000
+TI  - KEGG: Kyoto Encyclopedia of Genes and Genomes
+JO  - Nucleic Acids Research
+VL  - 28
+IS  - 1
+SP  - 27
+EP  - 30
+DO  - 10.1093/nar/28.1.27
+ER  -
+
+TY  - JOUR
+AU  - Kanehisa, Minoru
+AU  - Furumichi, Miho
+AU  - Sato, Yoko
+AU  - Kawashima, Mika
+AU  - Ishiguro-Watanabe, Mari
+PY  - 2023
+TI  - KEGG for taxonomy-based analysis of pathways and genomes
+JO  - Nucleic Acids Research
+VL  - 51
+IS  - D1
+SP  - D587
+EP  - D592
+DO  - 10.1093/nar/gkac963
+ER  -

@@ -1,0 +1,22 @@
+name: rnaseq-pipeline
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.10
+  - pip
+  - pyyaml
+  - fastp
+  - hisat2
+  - samtools
+  - subread
+  - stringtie
+  - multiqc
+  - r-base>=4.4
+  - r-jsonlite
+  - bioconductor-deseq2
+  - bioconductor-clusterprofiler
+  - bioconductor-go.db
+  - bioconductor-annotationdbi
+  - bioconductor-keggrest
+  - bioconductor-enrichplot

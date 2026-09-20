@@ -1,0 +1,5 @@
+GeneID	Product	GO Terms
+g1	catalase	GO:0004096 - catalase activity; GO:0006979 - response to oxidative stress
+g2	superoxide dismutase	GO:0004784 - superoxide dismutase activity
+g3	HMG-CoA synthase	GO:0004421 - hydroxymethylglutaryl-CoA synthase activity; GO:0008299 - isoprenoid biosynthetic process
+g4	hypothetical protein	

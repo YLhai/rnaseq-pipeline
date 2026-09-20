@@ -1,0 +1,34 @@
+EndNote 导入说明
+================
+
+文件：
+1. R_packages_EndNote.ris
+   包含本次询问的三个 R 包：
+   - KEGGREST v1.50.0
+   - GO.db v3.22.0
+   - AnnotationDbi v1.72.0
+
+2. R_packages_EndNote.enw
+   与上述三条文献内容相同的 EndNote 标签格式（备用）。
+
+3. R_related_citations_EndNote.ris
+   建议同时引用的相关文献：
+   - clusterProfiler 2024 Nature Protocols
+   - clusterProfiler 4.0 2021 The Innovation
+   - KEGG 2000 Nucleic Acids Research
+   - KEGG 2023 Nucleic Acids Research
+
+导入方法（EndNote 20/21）：
+File -> Import -> File...
+  Import File:      选择 .ris 或 .enw 文件
+  Import Option:    Reference Manager (RIS) 或 EndNote Import
+  Duplicates:       Discard Duplicates
+  Text Translation: Unicode (UTF-8)
+
+说明：
+- RIS 文件兼容性最好，建议优先导入 .ris。
+- 如果期刊要求同时引用 KEGG 数据库，请一并导入
+  R_related_citations_EndNote.ris 中的 KEGG 2000/2023 两条。
+- 三个 R 包的 citation() 信息由 Bioconductor 包 DESCRIPTION 自动生成，
+  部分期刊可能要求将年份改为实际使用的版本发布年；本文件采用
+  citation() 输出的 2025。

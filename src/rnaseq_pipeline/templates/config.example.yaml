@@ -1,0 +1,81 @@
+# rnaseq-pipeline configuration
+project:
+  name: my_rnaseq_project
+  outdir: results
+  threads: 8
+  jobs: 2
+  force: false
+  keep_intermediate: true
+  log_level: INFO
+  # Set true when samples.tsv already points to quality-controlled FASTQ.
+  input_is_clean: false
+
+samples: samples.tsv
+samples_delimiter: "\t"
+
+reference:
+  genome_fasta: reference/genome.fa
+  gtf: reference/genes.gtf
+  # featureCounts annotation options
+  annotation_format: GTF          # GTF or GFF
+  feature_type: exon              # e.g. exon or gene
+  gene_attribute: gene_id         # e.g. gene_id or ID
+  # Leave empty to build the index under results/reference/hisat2_index/genome.
+  hisat2_index: ""
+  build_index: true
+
+annotation:
+  # Tab-separated function annotation table (optional but recommended).
+  table: annotation/function_annotation.txt
+  # If no annotation table is available, set from_gtf: true to extract
+  # gene names/products from the GTF/GFF attributes.
+  from_gtf: false
+  delimiter: "\t"                 # use "," for CSV annotation tables
+  gene_id_column: GeneID
+  product_column: Product
+  go_column: "GO Terms"
+  # Gene -> KO table with header GeneID	KO (optional)
+  kegg_gene_table: ""
+  # Gene -> GO table with two columns: GeneID	GO (optional)
+  go_gene_table: ""
+  # KO -> pathway table: ko:K00001	path:ko00010 (optional)
+  ko_pathway_table: ""
+  # Pathway id -> name: ko00010	Glycolysis / Gluconeogenesis (optional)
+  pathway_names: ""
+
+analysis:
+  design_variable: group
+  covariates: []
+  # featureCounts strandness: 0 unstranded, 1 forward, 2 reverse
+  strandness: 0
+  figures:
+    formats: ["png", "pdf"]
+    # strict: p.adjust < 0.05; nominal: p < 0.05; all: no filter
+    enrichment_threshold: strict
+  deg:
+    padj: 0.05
+    log2fc: 1.0
+  stringtie: false
+  enrichment: true
+  contrasts:
+    - name: treat4_vs_control
+      numerator: treat4
+      denominator: control
+    - name: treat8_vs_control
+      numerator: treat8
+      denominator: control
+  categories:
+    antioxidant:
+      label: Antioxidant
+      go: ["GO:0004601", "GO:0004784", "GO:0004364", "GO:0006979", "GO:0045454", "GO:0016209"]
+      keywords: ["catalase", "superoxide dismutase", "peroxidase", "peroxiredoxin", "glutathione", "thioredoxin", "glutaredoxin", "oxidative stress", "reactive oxygen", "ascorbate", "alkyl hydroperoxide"]
+    energy_metabolism:
+      label: Energy metabolism
+      kegg: ["ko00010", "ko00020", "ko00030", "ko00190", "ko00620", "ko00630", "ko00071"]
+      go: ["GO:0006096", "GO:0006099", "GO:0006119", "GO:0015986", "GO:0006091"]
+      keywords: ["atp synthase", "nad(p)h dehydrogenase", "nadph dehydrogenase", "cytochrome c oxidase", "cytochrome b", "ubiquinol-cytochrome", "citrate synthase", "aconitase", "isocitrate dehydrogenase", "succinate dehydrogenase", "fumarase", "malate dehydrogenase", "pyruvate kinase", "pyruvate dehydrogenase", "hexokinase", "phosphofructokinase", "fructose-bisphosphate aldolase", "glyceraldehyde-3-phosphate dehydrogenase", "phosphoglycerate kinase", "phosphoglycerate mutase", "enolase", "glucose-6-phosphate dehydrogenase", "6-phosphogluconate", "alcohol dehydrogenase", "aldehyde dehydrogenase", "acetyl-coa acyltransferase", "enoyl-coa hydratase", "carnitine"]
+    terpenoid:
+      label: Terpenoid metabolism
+      kegg: ["ko00900", "ko00902", "ko00904", "ko00905", "ko00906", "ko00908", "ko00909"]
+      go: ["GO:0008299", "GO:0016114", "GO:0010333", "GO:0006720"]
+      keywords: ["terpene", "terpenoid", "isoprenoid", "mevalonate", "farnesyl", "geranyl", "geranylgeranyl", "squalene", "hmg-coa", "hydroxymethylglutaryl", "isopentenyl", "carotenoid", "linalool", "kaurene", "steviol"]

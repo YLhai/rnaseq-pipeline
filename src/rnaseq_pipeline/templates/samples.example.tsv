@@ -1,0 +1,10 @@
+sample	group	replicate	fastq_1	fastq_2
+control_1	control	1	data/control_1_R1.fastq.gz	data/control_1_R2.fastq.gz
+control_2	control	2	data/control_2_R1.fastq.gz	data/control_2_R2.fastq.gz
+control_3	control	3	data/control_3_R1.fastq.gz	data/control_3_R2.fastq.gz
+treat4_1	treat4	1	data/treat4_1_R1.fastq.gz	data/treat4_1_R2.fastq.gz
+treat4_2	treat4	2	data/treat4_2_R1.fastq.gz	data/treat4_2_R2.fastq.gz
+treat4_3	treat4	3	data/treat4_3_R1.fastq.gz	data/treat4_3_R2.fastq.gz
+treat8_1	treat8	1	data/treat8_1_R1.fastq.gz	data/treat8_1_R2.fastq.gz
+treat8_2	treat8	2	data/treat8_2_R1.fastq.gz	data/treat8_2_R2.fastq.gz
+treat8_3	treat8	3	data/treat8_3_R1.fastq.gz	data/treat8_3_R2.fastq.gz

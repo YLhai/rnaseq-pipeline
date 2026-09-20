@@ -1,0 +1,66 @@
+# Example: steviol treatment of Morchella mycelia
+project:
+  name: morchella_steviol
+  outdir: results
+  threads: 8
+  jobs: 2
+  keep_intermediate: false
+  input_is_clean: false
+
+samples: samples.tsv
+samples_delimiter: "\t"
+
+reference:
+  genome_fasta: reference/yd.scaffolds_haveGenes.fa
+  gtf: reference/Msextelata_unique.gtf
+  annotation_format: GTF
+  feature_type: exon
+  gene_attribute: gene_id
+  hisat2_index: ""
+  build_index: true
+
+annotation:
+  table: annotation/yd.annotations.txt
+  from_gtf: false
+  delimiter: "\t"
+  gene_id_column: GeneID
+  product_column: Product
+  go_column: "GO Terms"
+  kegg_gene_table: annotation/yd_kegg_gene_ID.tab
+  ko_pathway_table: annotation/kegg_ko_pathway.txt
+  pathway_names: annotation/kegg_pathway_names.txt
+
+analysis:
+  design_variable: group
+  covariates: []
+  strandness: 0
+  figures:
+    formats: ["png", "pdf"]
+    enrichment_threshold: strict
+  deg:
+    padj: 0.05
+    log2fc: 1.0
+  stringtie: false
+  enrichment: true
+  contrasts:
+    - name: treat4_vs_control
+      numerator: treat4
+      denominator: control
+    - name: treat8_vs_control
+      numerator: treat8
+      denominator: control
+  categories:
+    antioxidant:
+      label: Antioxidant
+      go: ["GO:0004601", "GO:0004784", "GO:0004364", "GO:0006979", "GO:0045454", "GO:0016209"]
+      keywords: ["catalase", "superoxide dismutase", "peroxidase", "peroxiredoxin", "glutathione", "thioredoxin", "glutaredoxin", "oxidative stress", "reactive oxygen", "ascorbate"]
+    energy_metabolism:
+      label: Energy metabolism
+      kegg: ["ko00010", "ko00020", "ko00030", "ko00190", "ko00620", "ko00630", "ko00071"]
+      go: ["GO:0006096", "GO:0006099", "GO:0006119", "GO:0015986", "GO:0006091"]
+      keywords: ["atp synthase", "cytochrome c oxidase", "cytochrome b", "nadh dehydrogenase", "succinate dehydrogenase", "pyruvate dehydrogenase", "pyruvate kinase", "phosphoglycerate mutase", "carnitine"]
+    terpenoid:
+      label: Terpenoid metabolism
+      kegg: ["ko00900", "ko00902", "ko00904", "ko00905", "ko00906", "ko00908", "ko00909"]
+      go: ["GO:0008299", "GO:0016114", "GO:0010333", "GO:0006720"]
+      keywords: ["terpene", "isoprenoid", "mevalonate", "farnesyl", "geranyl", "squalene", "hmg-coa", "isopentenyl", "steviol"]

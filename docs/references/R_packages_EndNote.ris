@@ -1,0 +1,34 @@
+TY  - CPROG
+AU  - Tenenbaum, Dan
+AU  - Bioconductor Package Maintainer
+PY  - 2025
+TI  - KEGGREST: Client-side REST access to the Kyoto Encyclopedia of Genes and Genomes (KEGG)
+ET  - 1.50.0
+PB  - Bioconductor
+DO  - 10.18129/B9.bioc.KEGGREST
+UR  - https://bioconductor.org/packages/KEGGREST
+N1  - R package version 1.50.0
+ER  -
+
+TY  - CPROG
+AU  - Carlson, Marc
+PY  - 2025
+TI  - GO.db: A set of annotation maps describing the entire Gene Ontology
+ET  - 3.22.0
+PB  - Bioconductor
+N1  - R package version 3.22.0
+ER  -
+
+TY  - CPROG
+AU  - Pagès, Hervé
+AU  - Carlson, Marc
+AU  - Falcon, Seth
+AU  - Li, Nianhua
+PY  - 2025
+TI  - AnnotationDbi: Manipulation of SQLite-based annotations in Bioconductor
+ET  - 1.72.0
+PB  - Bioconductor
+DO  - 10.18129/B9.bioc.AnnotationDbi
+UR  - https://bioconductor.org/packages/AnnotationDbi
+N1  - R package version 1.72.0
+ER  -
